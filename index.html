@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Adventure</title>
+
+<style>
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  font-family:'Trebuchet MS',sans-serif;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:url('bg.jpg') center/cover no-repeat;
+}
+
+body::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(3px);
+}
+
+.card{
+  position:relative;
+  width:90%;
+  max-width:800px;
+  max-height:85vh;  
+  min-height:500px;
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(25px);
+  border-radius:30px;
+  padding:40px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  color:white;
+  overflow:hidden;
+}
+
+/* PAGE SYSTEM */
+.page{
+  position:absolute;
+  inset:40px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  opacity:0;
+  transition:0.8s ease;
+  pointer-events:none;
+}
+
+.page.active{
+  opacity:1;
+  pointer-events:auto;
+}
+
+button{
+  padding:14px 30px;
+  border:none;
+  border-radius:40px;
+  background:gold;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:20px;
+}
+
+/* ==== CAKE SECTION ==== */
+.cake{
+  position:relative;
+  width:250px;
+  height:200px;
+  margin-top:40px;
+}
+
+.plate{
+  width:270px;
+  height:110px;
+  position:absolute;
+  bottom:-10px;
+  left:-10px;
+  background:#ccc;
+  border-radius:50%;
+  box-shadow:0 5px 40px rgba(0,0,0,0.5);
+}
+
+.layer {
+  position: absolute;
+  display: block;
+  width: 250px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #6b3e2e; /* base coklat */
+
+  box-shadow:
+    0 2px 0px #5a3325,
+    0 4px 0px #4b2a1f,
+    0 6px 0px #4b2a1f,
+    0 8px 0px #4b2a1f,
+    0 10px 0px #4b2a1f,
+    0 12px 0px #4b2a1f,
+    0 14px 0px #4b2a1f,
+    0 16px 0px #4b2a1f,
+    0 18px 0px #4b2a1f,
+    0 20px 0px #4b2a1f,
+    0 22px 0px #4b2a1f,
+    0 24px 0px #4b2a1f,
+    0 26px 0px #4b2a1f,
+    0 28px 0px #4b2a1f,
+    0 30px 0px #4b2a1f;
+}
+
+.layer-top {
+  top: 0px;
+}
+
+.layer-middle {
+  top: 33px;
+}
+
+.layer-bottom {
+  top: 66px;
+}
+
+.icing{
+  top:2px;
+  left:5px;
+  background:#f8f1e7;
+  width:240px;
+  height:90px;
+  border-radius:50%;
+  position:absolute;
+}
+
+.drip{
+  width:50px;
+  height:60px;
+  border-bottom-left-radius:25px;
+  border-bottom-right-radius:25px;
+  background:#f8f1e7;
+  position:absolute;
+}
+
+.drip1 {
+  top: 53px;
+  left: 5px;
+  transform: skewY(15deg);
+  height: 48px;
+  width: 40px;
+}
+
+.drip2 {
+  top: 69px;
+  left: 181px;
+  transform: skewY(-15deg);
+}
+
+.drip3 {
+  top: 54px;
+  left: 90px;
+  width: 80px;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+}
+
+.candle{
+  background:#7B020B;
+  width:20px;
+  height:60px;
+  border-radius:8px;
+  position:absolute;
+  z-index:20;
+}
+
+.c1{ left:50%; transform:translateX(-50%) translateX(-35px); }
+.c2{ left:50%; transform:translateX(-50%); }
+.c3{ left:50%; transform:translateX(-50%) translateX(35px); }
+
+.flame {
+  position: absolute;
+  background-color: orange;
+  width: 10px;
+  height: 25px;
+  border-radius: 8px 8px 8px 8px/20px 20px 8px 8px;
+  top: -34px;
+  left: 50%;
+  margin-left: -7.5px;
+  z-index: 10;
+  box-shadow: 0 0 10px rgba(255, 165, 0, 0.5), 0 0 20px rgba(255, 165, 0, 0.5), 0 0 60px rgba(255, 165, 0, 0.5), 0 0 80px rgba(255, 165, 0, 0.5);
+  transform-origin: 50% 90%;
+  animation: flicker 1s ease-in-out alternate infinite;
+}
+
+.candle.out .flame{
+  display:none;
+}
+
+@keyframes flicker{
+  0%{ transform:rotate(-5deg);}
+  100%{ transform:rotate(5deg);}
+}
+
+.glitter{
+  position:absolute;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  animation:explode 2s forwards;
+}
+
+@keyframes explode{
+  to{
+    transform:translateY(200px);
+    opacity:0;
+  }
+}
+
+#page3{
+  align-items:flex-start;
+  justify-content:flex-start;
+  text-align:left;
+  padding-top:20px;
+  overflow:hidden;
+}
+
+.photo-box{
+  width:100%;
+  height:220px;
+  border-radius:20px;
+  overflow:hidden;
+  margin-bottom:25px;
+}
+
+.photo-box img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.letter{
+  width:100%;
+  max-height:220px;
+  overflow-y:auto;
+  padding-right:10px;
+}
+
+.letter p{
+  font-size: small;
+  text-align:justify;
+  line-height:1.6;
+}
+
+.letter::-webkit-scrollbar{
+  width:6px;
+}
+
+.letter::-webkit-scrollbar-track{
+  background:rgba(255,255,255,0.1);
+  border-radius:10px;
+}
+
+.letter::-webkit-scrollbar-thumb{
+  background:gold;
+  border-radius:10px;
+}
+
+@media(max-width:768px){
+  .card{
+    max-height:90vh;
+    padding:25px;
+  }
+
+  .photo-box{
+    height:180px;
+  }
+
+  .letter{
+    max-height:180px;
+  }
+}
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" src="music.mp3" loop></audio>
+
+<div class="card">
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+  <h1>Happy Birthday Captain 🏴‍☠️</h1>
+  <button id="startBtn">Start Adventure</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+  <h2>Make a Wish and Blow the Candles 🎂</h2>
+
+  <div class="cake">
+    <div class="plate"></div>
+    <div class="layer layer-bottom"></div>
+    <div class="layer layer-middle"></div>
+    <div class="layer layer-top"></div>
+    <div class="icing"></div>
+    <div class="drip drip1"></div>
+    <div class="drip drip2"></div>
+    <div class="drip drip3"></div>
+
+    <div class="candle c1"><div class="flame"></div></div>
+    <div class="candle c2"><div class="flame"></div></div>
+    <div class="candle c3"><div class="flame"></div></div>
+  </div>
+
+  <p>Blow into your mic</p>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page" id="page3">
+  <div class="photo-box">
+    <img src="photo.jpg">
+  </div>
+
+  <div class="letter">
+    <p>
+      Happy Birthday 🤍  
+      Thank you for staying and loving me.
+      (TARUH SEMUA TEXT PANJANG KAMU DI SINI SEBANYAK APAPUN)
+        <br><br>
+      Happy Birthday 🤍  
+      Thank you for staying and loving me.
+      (TARUH SEMUA TEXT PANJANG KAMU DI SINI SEBANYAK APAPUN)
+    </p>
+  </div>
+
+  <button id="restartBtn">Start Over</button>
+</div>
+
+<script>
+const pages=document.querySelectorAll(".page");
+const startBtn=document.getElementById("startBtn");
+const restartBtn=document.getElementById("restartBtn");
+const bgMusic=document.getElementById("bgMusic");
+const candles=document.querySelectorAll(".candle");
+
+let blown=false;
+
+function showPage(i){
+  pages.forEach(p=>p.classList.remove("active"));
+  pages[i].classList.add("active");
+}
+
+startBtn.addEventListener("click",()=>{
+  bgMusic.play();
+  bgMusic.volume=1;
+  showPage(1);
+  startMic();
+});
+
+restartBtn.addEventListener("click",()=>{
+  bgMusic.volume=1;
+  blown=false;
+  candles.forEach(c=>c.classList.remove("out"));
+  showPage(0);
+});
+
+async function startMic(){
+  const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+  const audioContext=new AudioContext();
+  const mic=audioContext.createMediaStreamSource(stream);
+  const analyser=audioContext.createAnalyser();
+
+  mic.connect(analyser);
+  analyser.fftSize=256;
+
+  const data=new Uint8Array(analyser.frequencyBinCount);
+
+  function detect(){
+    analyser.getByteFrequencyData(data);
+    const volume=data.reduce((a,b)=>a+b)/data.length;
+
+    if(volume>60 && !blown){
+      blown=true;
+
+      candles.forEach(c=>c.classList.add("out"));
+      bgMusic.volume=0.3;
+      glitterExplosion();
+
+      setTimeout(()=>{
+        bgMusic.volume=1;
+        showPage(2);
+      },4000);
+    }
+
+    requestAnimationFrame(detect);
+  }
+  detect();
+}
+
+function glitterExplosion(){
+  for(let i=0;i<150;i++){
+    const g=document.createElement("div");
+    g.classList.add("glitter");
+    g.style.left=Math.random()*100+"%";
+    g.style.top=Math.random()*100+"%";
+    g.style.background=`hsl(${Math.random()*360},100%,60%)`;
+    document.body.appendChild(g);
+    setTimeout(()=>g.remove(),2000);
+  }
+}
+</script>
+
+</body>
+</html>
