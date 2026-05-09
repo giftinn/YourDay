@@ -23,8 +23,6 @@ body::before{
   content:"";
   position:absolute;
   inset:0;
-  background:rgba(0,0,0,0.5);
-  backdrop-filter:blur(3px);
 }
 
 .card{
@@ -65,10 +63,30 @@ button{
   padding:14px 30px;
   border:none;
   border-radius:40px;
-  background:gold;
+  background:rgb(231 185 114);
   font-weight:bold;
   cursor:pointer;
   margin-top:20px;
+}
+
+.floating-icon {
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.floating-icon img {
+  width: 100px; 
+  animation: floatUpDown 3s ease-in-out infinite;
+}
+
+/* Animation naik turun */
+@keyframes floatUpDown {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
 }
 
 /* ==== CAKE SECTION ==== */
@@ -288,12 +306,17 @@ button{
 </head>
 <body>
 
-<audio id="bgMusic" src="https://giftinn.github.io/music-host/Count%20on%20Me%20-%20Bruno%20Mars.mp3" loop></audio>
+<audio id="bgMusic" src="https://giftinn.github.io/music-host/you.mp3" loop></audio>
 
 <div class="card">
 
 <!-- PAGE 1 -->
 <div class="page active" id="page1">
+
+  <div class="floating-icon">
+    <img src="luffy.png" alt="icon">
+  </div>
+
   <h1>Happy Birthday Captain 🏴‍☠️</h1>
   <button id="startBtn">Start Adventure</button>
 </div>
@@ -328,13 +351,13 @@ button{
 
   <div class="letter">
     <p>
-      Happy Birthday 🤍  
-      Thank you for staying and loving me.
-      (TARUH SEMUA TEXT PANJANG KAMU DI SINI SEBANYAK APAPUN)
-        <br><br>
-      Happy Birthday 🤍  
-      Thank you for staying and loving me.
-      (TARUH SEMUA TEXT PANJANG KAMU DI SINI SEBANYAK APAPUN)
+      Happy birthday, bebe! 
+      <br><br>
+      Wishing you the happiest birthday to you. On this special day, I just want to tell you that I pray for you every single day, I mean not just today. I pray for your happiness, for your safety whenever we’re apart, and for that beautiful smile of yours to never fade. May your year be full of favor, new opportunities, and moments that make you realize how amazing you truly are. I love you more than words that I can say and I’m constantly praying for the very best for you.
+      <br><br>
+      I ask for blessings over your health, your dreams, and every single goal you’re working so hard to reach. Watching you grow is one of my favorite things in the world, and I pray that this year brings you closer to everything you’ve ever wanted. You are so deeply loved, today, and every day. I hope your day is filled with all the snacks you love, the best music, and that big smile of yours that I adore so much. 
+      <br><br>
+      Having you in my life is my greatest blessing, and I’ll never stop thanking the universe for bringing us together. My prayer for you as you start this new year is that you never lose your spark and that you’re given the world and everything in it. I ask for blessings over your health, your happiness, and your peace of mind. Thank you for making me so proud to be yours every single day. I could write pages about how much you mean to me, but for now, just know that you are my favorite blessing. I’m so proud to be the one standing by your side as you take on another year. I love you to the moon and back, and I can’t wait to see all the incredible things you’ll do this year. Once again, Happy Birthday, Bebe!
     </p>
   </div>
 
